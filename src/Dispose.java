@@ -1,20 +1,20 @@
 public class Dispose extends Element {
 
     public Dispose() {
-        super(); // Викликає конструктор Element
+        super();
     }
 
     @Override
     public void inAct() {
-        if (super.getState() == 1) { // Якщо пристрій зайнятий
-            this.updateBusyTime(); // Оновлення часу завантаження
+        if (super.getState() == 1) {
+            this.updateBusyTime();
         }
-        super.outAct(); // Фіксує кількість запитів, які досягли Dispose
+        super.outAct();
     }
 
     @Override
     public void outAct() {
-        // Нічого не робить, бо це кінцевий елемент
+
     }
 
     @Override

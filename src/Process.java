@@ -5,11 +5,11 @@ public class Process extends Element {
     private int queue, maxqueue, failure;
     private double meanLoad;
     private double meanQueue;
-    private int numDevices; // Кількість ідентичних пристроїв
-    private int busyDevices; // Поточна кількість зайнятих пристроїв
-    private List<Element> nextElements; // Список наступних блоків
+    private int numDevices;
+    private int busyDevices;
+    private List<Element> nextElements;
     private List<Double> transitionProbabilities = new ArrayList<>();
-    private int maxTransitions = 3000; // Ліміт кількості переходів для одного процеса
+    private int maxTransitions = 3000;
     private int currentTransitions = 0;
 
     public Process(double delay, int numDevices) {
@@ -27,12 +27,12 @@ public class Process extends Element {
         if (currentTransitions > maxTransitions) {
             System.out.println(getName() + ": Maximum transitions reached. Sending to Dispose.");
             if (!nextElements.isEmpty()) {
-                nextElements.getLast().inAct(); // Останній елемент - Dispose
+                nextElements.getLast().inAct();
             }
             return;
         }
 
-        if (busyDevices < numDevices) { // Якщо є вільні пристрої
+        if (busyDevices < numDevices) {
             busyDevices++;
             super.setTnext(super.getTcurr() + super.getDelay());
         } else {
@@ -49,24 +49,20 @@ public class Process extends Element {
         busyDevices--;
 
         if (queue > 0) {
-            // Обробка наступного запиту з черги
             queue--;
             busyDevices++;
             super.setTnext(super.getTcurr() + super.getDelay());
         } else if (busyDevices > 0) {
-            // Якщо є інші зайняті пристрої, зберігаємо мінімальне `tnext`
             double nextTime = Double.MAX_VALUE;
             for (int i = 0; i < busyDevices; i++) {
                 nextTime = Math.min(nextTime, super.getTcurr() + super.getDelay());
             }
             super.setTnext(nextTime);
         } else {
-            // Якщо всі пристрої вільні, tnext встановлюється в нескінченність
             super.setState(0);
             super.setTnext(Double.MAX_VALUE);
         }
 
-        // Передача елемента до наступного процесу (якщо він є)
         if (!nextElements.isEmpty()) {
             Element next = selectNextElement();
             System.out.println(getName() + " sends request to " + next.getName());
@@ -76,13 +72,11 @@ public class Process extends Element {
         }
     }
 
-    // Додає наступний блок до списку
     public void addNextElement(Element element, double probability) {
         this.nextElements.add(element);
         this.transitionProbabilities.add(probability);
     }
 
-    // Вибір наступного елемента за ймовірностями
     private Element selectNextElement() {
         if (!nextElements.isEmpty() && !transitionProbabilities.isEmpty()) {
             double random = Math.random();

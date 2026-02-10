@@ -24,7 +24,6 @@ public class Model {
                 }
             }
 
-            // Якщо немає подій, завершити симуляцію
             if (eventElement == null || tnext == Double.MAX_VALUE) {
                 System.out.println("No more events to process. Simulation ends.");
                 break;
@@ -32,17 +31,11 @@ public class Model {
 
             System.out.println("\nIt's time for event in " +
                     eventElement.getName() + ", time = " + tnext);
-/*
-            eventElement.doStatistics(tnext - tcurr);
-            eventElement.setTcurr(tnext);
-*/
 
             for (Element e : list) {
                 e.doStatistics(tnext - tcurr);
                 e.setTcurr(tnext);
             }
-
-
 
             tcurr = tnext;
 
@@ -75,8 +68,8 @@ public class Model {
                         p.getMeanQueue() / tcurr
                         + "\nfailure probability = " +
                         Math.round((p.getFailure() / (double)
-                                (p.getQuantity()+p.getFailure())) * 100 * 10000) / (double)10000 + "%;\n"
-                       + "\tсереднє завантаження процесора: " + p.getBusyTime() / tcurr + ";");
+                                (p.getQuantity()+p.getFailure())) * 100 * 10000) / (double)10000 + "%;"
+                       + "\nсереднє завантаження процесора: " + p.getBusyTime() / tcurr + ";\n");
             }
         }
     }
