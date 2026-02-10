@@ -39,6 +39,9 @@ public class Process extends Element {
     public int getFailure() {
         return failure;
     }
+    public double getTotalBusyTime(){
+        return totalBusyTime;
+    }
     public int getQueue() {
         return queue;
     }

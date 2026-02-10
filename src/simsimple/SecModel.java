@@ -56,7 +56,8 @@ public class SecModel {
                 System.out.println("mean length of queue = " +
                         p.getMeanQueue() / tcurr
                         + "\nfailure probability = " +
-                        p.getFailure() / (double) p.getQuantity());
+                        p.getFailure() / (double) p.getQuantity() +
+                        "\naverage load = " + (p.getTotalBusyTime() / tcurr));
             }
         }
     }
